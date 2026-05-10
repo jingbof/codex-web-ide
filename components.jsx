@@ -15,10 +15,6 @@ function TabBar({ tabs, activeId, onActivate, onClose, onNew, showStatus, showPR
 
   return (
     <div className="tabbar">
-      <div className="traffic">
-        <span className="dot red" /><span className="dot yel" /><span className="dot grn" />
-      </div>
-
       <div className="tab-strip" ref={stripRef}>
         {tabs.map(t => (
           <div
