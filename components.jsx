@@ -257,6 +257,7 @@ function ChatStream({ tab }) {
 
 function Composer() {
   const [val, setVal] = useState("");
+  const [modelOpen, setModelOpen] = useState(false);
   return (
     <div className="composer-wrap">
       <div className="composer">
@@ -273,16 +274,54 @@ function Composer() {
           </div>
           <div className="right">
             <div className="chip"><IconRefresh size={13} /></div>
-            <div className="chip">5.5 High <IconChevDown size={12} /></div>
+            <div className={`model-picker ${modelOpen ? "open" : ""}`}>
+              <button
+                className="model-trigger"
+                type="button"
+                onClick={() => setModelOpen((open) => !open)}
+                aria-haspopup="menu"
+                aria-expanded={modelOpen}
+              >
+                5.5 High <IconChevDown size={12} />
+              </button>
+              {modelOpen && (
+                <div className="model-menu" role="menu">
+                  <div className="model-menu-title">Intelligence</div>
+                  {["Low", "Medium", "High", "Extra High"].map((level) => (
+                    <div
+                      key={level}
+                      className={`model-menu-row ${level === "High" ? "selected" : ""}`}
+                      role="menuitem"
+                      onClick={() => setModelOpen(false)}
+                    >
+                      <span>{level}</span>
+                      <span className="row-spacer" />
+                      {level === "High" && <IconCheck size={14} stroke={2.1} />}
+                    </div>
+                  ))}
+                  <div className="model-menu-divider" />
+                  <div className="model-menu-row" role="menuitem">
+                    <span>GPT-5.5</span>
+                    <span className="row-spacer" />
+                    <IconChevRight size={14} />
+                  </div>
+                  <div className="model-menu-row" role="menuitem">
+                    <span>Speed</span>
+                    <span className="row-spacer" />
+                    <IconChevRight size={14} />
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="icon-btn"><IconMic size={15} /></div>
             <div className="send-btn"><IconArrowUp size={16} stroke={2.4} /></div>
           </div>
         </div>
-        <div style={{display:"flex", justifyContent:"space-between", marginTop:8, color:"var(--fg-dim)", fontSize:12}}>
-          <span style={{display:"inline-flex", alignItems:"center", gap:6}}>
+        <div className="composer-footer">
+          <span>
             <IconLaptop size={13} /> Work locally <IconChevDown size={12} />
           </span>
-          <span style={{display:"inline-flex", alignItems:"center", gap:6}}>
+          <span>
             <IconBranchSm /> feat/currency-rate-field <IconChevDown size={12} />
           </span>
         </div>
